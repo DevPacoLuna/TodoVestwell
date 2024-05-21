@@ -4,10 +4,17 @@ services:
     build:
       context: .
       dockerfile: ./todofrontvestwell/Dockerfile
-    depends_on:
-      - back
     ports:
       - 4200:4200
+    environment:
+      - PORT=4200
+      - NODE_ENV=development
+    volumes:
+      - ./todofrontvestwell/src:/src/app/src
+    depends_on:
+      - back
+    networks:
+      - todo-network
 
   back:
     container_name: back.todovestwell
@@ -18,9 +25,13 @@ services:
       - 3000:3000
     environment:
       - PORT=3000
-      - NODE_ENV=production
+      - NODE_ENV=development
+    volumes:
+      - ./todo-back-vestwell/src:/app/nestjs/src
     depends_on:
       - mysql_db
+    networks:
+      - todo-network
 
   mysql_db:
     container_name: mysql_db.todovestwell
@@ -28,8 +39,14 @@ services:
     ports:
       - 3307:3307
     environment:
-      - MYSQL_ROOT_PASSWORD=todovestwell123
-      - MYSQL_DATABASE=todovestwell
-      - MYSQL_USER=testuser
-      - MYSQL_PASSWORD=testuser123
-      - MYSQL_TCP_PORT=3307
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_TCP_PORT: ${MYSQL_TCP_PORT}
+    networks:
+      - todo-network
+
+networks:
+  todo-network:
+    driver: bridge
