@@ -3,6 +3,8 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
+import { UsersModule } from './users/users.module';
+import { TasksModule } from './tasks/tasks.module';
 
 @Module({
   imports: [
@@ -12,11 +14,13 @@ import { ConfigModule } from '@nestjs/config';
       host: 'mysql_db',
       port: parseInt(process.env.MYSQL_TCP_PORT),
       database: process.env.MYSQL_DATABASE,
-      entities: [],
+      autoLoadEntities: true,
       username: process.env.MYSQL_USER,
       password: process.env.MYSQL_PASSWORD,
       synchronize: true,
     }),
+    UsersModule,
+    TasksModule,
   ],
   controllers: [AppController],
   providers: [AppService],
