@@ -3,6 +3,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
+import { hash } from 'argon2';
 
 @Injectable()
 export class UsersService {
@@ -11,7 +12,11 @@ export class UsersService {
   ) {}
 
   async create(createUserDto: CreateUserDto) {
-    const user = this.usersRepository.create(createUserDto);
+    const encryptedPassword = await hash(createUserDto.password);
+    const user = this.usersRepository.create({
+      ...createUserDto,
+      password: encryptedPassword,
+    });
 
     return await this.usersRepository.save(user);
   }
@@ -22,6 +27,10 @@ export class UsersService {
 
   findOne(id: number) {
     return this.usersRepository.findOneBy({ id });
+  }
+
+  findByEmail(email: string) {
+    return this.usersRepository.findOneBy({ email });
   }
 
   async remove(id: number) {
