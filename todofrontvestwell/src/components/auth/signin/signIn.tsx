@@ -10,19 +10,21 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { useFormik } from "formik";
 import { useContext, useState } from "react";
 import { signInForm, signInSchema } from "./form";
-import { SignInService } from "@/services/auth";
+import { login } from "@/services/auth";
 import { ErrorsContext } from "@/providers/handleErrorsProvider";
 import { AxiosError } from "axios";
+import { useRouter } from "next/navigation";
 
 export const SignIn = () => {
-  const { errors, setErrors } = useContext(ErrorsContext);
+  const { setErrors } = useContext(ErrorsContext);
+  const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
   const fetchSignIn = async (values: signInForm) => {
     try {
-      const logged = await SignInService(values);
+      const logged = await login(values);
 
       if (logged) {
         setErrors((prev) => [
@@ -32,6 +34,8 @@ export const SignIn = () => {
             type: "success",
           },
         ]);
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+        router.push("/");
       }
     } catch (error: any) {
       const axiosError = error as AxiosError;
@@ -80,6 +84,7 @@ export const SignIn = () => {
       <button
         className="bg-[#FFD43B] h-[56px] rounded-[5px]"
         type="submit"
+        disabled={formikSignIn.isSubmitting}
         onClick={() => formikSignIn.handleSubmit()}
       >
         Sign In
