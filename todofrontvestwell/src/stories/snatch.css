@@ -1,0 +1,25 @@
+.storybook-snatch {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 1;
+  background-color: rgba(221, 221, 221, 0);
+  border-radius: 8px;
+  box-shadow: rgba(0, 0, 0, 0.08) 0px 0px 0px;
+  border: 1px solid rgb(235, 235, 235);
+  padding: 5px 10px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.storybook-snatch--small {
+  font-size: 20px;
+}
+
+.storybook-snatch--medium {
+  font-size: 40px;
+}
+
+.storybook-snatch--large {
+  font-size: 56px;
+}

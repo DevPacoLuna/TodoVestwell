@@ -3,7 +3,7 @@ import { axiosService } from "./axios";
 import { setTokens } from "./localstorage";
 
 export const login = async (signInDto: SignInDTO) => {
-  const { status, data } = await axiosService.post<SignInDAO>(
+  const { status, data } = await axiosService("client").post<SignInDAO>(
     "/auth/login",
     signInDto
   );

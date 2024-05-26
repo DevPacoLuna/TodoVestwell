@@ -1,5 +1,6 @@
 "use client";
 import {
+  CircularProgress,
   IconButton,
   InputAdornment,
   OutlinedInput,
@@ -87,7 +88,7 @@ export const SignIn = () => {
         disabled={formikSignIn.isSubmitting}
         onClick={() => formikSignIn.handleSubmit()}
       >
-        Sign In
+        {formikSignIn.isSubmitting ? <CircularProgress /> : "Sign In"}
       </button>
     </div>
   );
