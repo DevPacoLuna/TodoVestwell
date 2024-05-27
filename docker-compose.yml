@@ -10,7 +10,7 @@ services:
       - PORT=4200
       - NODE_ENV=development
     volumes:
-      - ./todofrontvestwell/src:/src/app/src
+      - ./todofrontvestwell:/src/app
     depends_on:
       - back
     networks:

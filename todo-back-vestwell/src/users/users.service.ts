@@ -18,7 +18,9 @@ export class UsersService {
       password: encryptedPassword,
     });
 
-    return await this.usersRepository.save(user);
+    const { password, ...newUser } = await this.usersRepository.save(user);
+
+    return newUser;
   }
 
   findAll() {

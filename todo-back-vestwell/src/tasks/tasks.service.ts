@@ -5,6 +5,10 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Task } from './entities/task.entity';
 import { Repository } from 'typeorm';
 
+export interface FiltersDTO {
+  limit: string;
+  page: string;
+}
 @Injectable()
 export class TasksService {
   constructor(
@@ -16,8 +20,13 @@ export class TasksService {
     return await this.tasksRepository.save(task);
   }
 
-  findAll() {
-    return this.tasksRepository.find();
+  findAllFilter({ limit, page }: FiltersDTO) {
+    const pageTasks = parseInt(page);
+    const limitTasks = parseInt(limit);
+    return this.tasksRepository.find({
+      skip: limitTasks * (pageTasks < 0 ? pageTasks : pageTasks - 1),
+      take: limitTasks,
+    });
   }
 
   findOne(id: number) {
