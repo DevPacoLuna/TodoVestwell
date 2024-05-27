@@ -1,10 +1,10 @@
-.storybook-snatch {
+.storybook-chipstatus {
   display: flex;
   align-items: center;
   justify-content: center;
   opacity: 1;
   background-color: rgba(221, 221, 221, 0);
-  border-radius: 8px;
+  border-radius: 16px;
   box-shadow: rgba(0, 0, 0, 0.08) 0px 0px 0px;
   border: 1px solid rgb(235, 235, 235);
   padding: 5px 10px;
@@ -12,22 +12,22 @@
   user-select: none;
 }
 
-.storybook-snatch--extra-small {
+.storybook-chipstatus--extra-small {
   font-size: 10px;
-  padding: 0px;
-  width: 15px;
-  height: 15px;
-  border-radius: 5px;
+  height: 20px;
 }
 
-.storybook-snatch--small {
+.storybook-chipstatus--small {
   font-size: 20px;
+  height: 30px;
 }
 
-.storybook-snatch--medium {
+.storybook-chipstatus--medium {
   font-size: 40px;
+  height: 50px;
 }
 
-.storybook-snatch--large {
+.storybook-chipstatus--large {
   font-size: 56px;
+  height: 60px;
 }

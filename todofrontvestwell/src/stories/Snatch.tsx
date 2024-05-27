@@ -14,7 +14,7 @@ interface SnatchProps {
   /**
    * How large should the snatch be?
    */
-  size?: "small" | "medium" | "large";
+  size?: "extra-small" | "small" | "medium" | "large";
   /**
    * Snatch contents
    */
