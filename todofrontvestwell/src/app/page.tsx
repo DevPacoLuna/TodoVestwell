@@ -16,6 +16,7 @@ import TaskModal from "@/components/task/taskModal/taskModal";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
+import { useQuery } from "@tanstack/react-query";
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
@@ -26,6 +27,10 @@ export default function Home() {
   const [status, setStatus] = useState<TaskStatus | "All">("All");
   const [limit, setLimit] = useState(5);
   const [taskSelected, setTaskSelected] = useState<CreateTaskDTO>();
+  const { data: allTasks } = useQuery({
+    queryKey: ["allTasks", limit, page, status],
+    queryFn: () => getAllTasks({ limit, page, status }),
+  });
 
   const handleChangePage = (
     _: React.MouseEvent<HTMLButtonElement> | null,
@@ -42,14 +47,12 @@ export default function Home() {
   };
 
   useEffect(() => {
-    const getAllTask = async () => {
-      const { tasks, countTasks } = await getAllTasks({ limit, page, status });
+    if (allTasks) {
+      const { countTasks, tasks } = allTasks;
       setTasks(tasks);
       setCount(countTasks);
-    };
-
-    getAllTask();
-  }, [page, limit, status]);
+    }
+  }, [allTasks]);
 
   return (
     <div className="flex">
@@ -109,11 +112,7 @@ export default function Home() {
         </div>
       </section>
       {taskSelected && (
-        <TaskModal
-          task={taskSelected}
-          setTaskSelected={setTaskSelected}
-          setPage={setPage}
-        />
+        <TaskModal task={taskSelected} setTaskSelected={setTaskSelected} />
       )}
     </div>
   );

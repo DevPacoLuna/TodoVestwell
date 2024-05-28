@@ -5,6 +5,8 @@ import { Inter } from "next/font/google";
 import theme from "../theme";
 import "./globals.css";
 import { HandleErrorsProvider } from "@/providers/handleErrorsProvider";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import HandleQueryProvider from "@/providers/handleQueryProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,11 +23,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <AppRouterCacheProvider>
-          <ThemeProvider theme={theme}>
-            <HandleErrorsProvider>{children}</HandleErrorsProvider>
-          </ThemeProvider>
-        </AppRouterCacheProvider>
+        <HandleQueryProvider>
+          <AppRouterCacheProvider>
+            <ThemeProvider theme={theme}>
+              <HandleErrorsProvider>{children}</HandleErrorsProvider>
+            </ThemeProvider>
+          </AppRouterCacheProvider>
+        </HandleQueryProvider>
       </body>
     </html>
   );

@@ -44,3 +44,11 @@ export const updateTask = async ({
 
   return result.data;
 };
+
+export const deleteTask = async (id: number) => {
+  const result = await axiosService("client").delete(`/tasks/${id}`, {
+    headers: { Authorization: `Bearer ${getToken()}` },
+  });
+
+  return result.data;
+};
