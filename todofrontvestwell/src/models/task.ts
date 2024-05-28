@@ -1,3 +1,5 @@
+import dayjs from "dayjs";
+
 export interface Task {
   id: number;
   title: string;
@@ -13,7 +15,7 @@ export interface TasksDAO {
 }
 
 export interface TaskDAO {
-  id: string;
+  id: number;
   title: string;
   description: string;
   dueDate: string;
@@ -22,10 +24,27 @@ export interface TaskDAO {
   status: TaskStatus;
 }
 
+export interface CreateTaskDTO {
+  id?: number;
+  title: string;
+  description: string;
+  dueDate: string;
+  parentTask?: number;
+  status?: TaskStatus;
+}
+
+export interface UpdateTaskDTO {
+  title: string;
+  description: string;
+  dueDate: string;
+  parentTask?: number;
+  status?: TaskStatus;
+}
+
 export interface FiltersDTO {
   limit: number;
   page: number;
-  status: TaskStatus;
+  status: TaskStatus | "All";
 }
 
 export enum TaskStatus {
@@ -33,3 +52,9 @@ export enum TaskStatus {
   INPROGRESS = "In progress",
   DONE = "Done",
 }
+
+export const mockTask: CreateTaskDTO = {
+  title: "",
+  description: "",
+  dueDate: dayjs().format("DD/MM/YYYY"),
+};

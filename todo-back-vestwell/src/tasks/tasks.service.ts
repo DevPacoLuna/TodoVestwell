@@ -8,8 +8,9 @@ import { IsNull, Repository } from 'typeorm';
 export interface FiltersDTO {
   limit: string;
   page: string;
-  status: TaskStatus;
+  status?: TaskStatus;
 }
+
 @Injectable()
 export class TasksService {
   constructor(

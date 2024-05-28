@@ -4,13 +4,22 @@ import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import { Snatch } from "@/stories/Snatch";
 import { ChipStatus } from "@/stories/ChipStatus";
 
-const TaskInline = ({ task }: { task: TaskDAO }) => {
+const TaskInline = ({
+  task,
+  handleSelectedTask,
+}: {
+  task: TaskDAO;
+  handleSelectedTask: (task: TaskDAO) => void;
+}) => {
   return (
     <div
       key={task.id}
       className="flex flex-col border-t-[1px] px-[12px] py-[10px]"
     >
-      <div className="flex justify-between items-center">
+      <div
+        className="flex justify-between items-center"
+        onClick={() => handleSelectedTask(task)}
+      >
         <div className="flex gap-[10px] items-center">
           <Checkbox aria-label="done" />
           <p>{task.title}</p>
