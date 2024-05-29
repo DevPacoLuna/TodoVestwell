@@ -2,13 +2,15 @@ import { Injectable } from '@nestjs/common';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Task } from './entities/task.entity';
-import { Repository } from 'typeorm';
+import { Task, TaskStatus } from './entities/task.entity';
+import { IsNull, Repository } from 'typeorm';
 
 export interface FiltersDTO {
   limit: string;
   page: string;
+  status?: TaskStatus;
 }
+
 @Injectable()
 export class TasksService {
   constructor(
@@ -20,13 +22,20 @@ export class TasksService {
     return await this.tasksRepository.save(task);
   }
 
-  findAllFilter({ limit, page }: FiltersDTO) {
+  async findAllFilter({ limit, page, status }: FiltersDTO) {
     const pageTasks = parseInt(page);
     const limitTasks = parseInt(limit);
-    return this.tasksRepository.find({
-      skip: limitTasks * (pageTasks < 0 ? pageTasks : pageTasks - 1),
+    const [tasks, countTasks] = await this.tasksRepository.findAndCount({
+      where: { status, parentTask: IsNull() },
+      skip: limitTasks * (pageTasks <= 1 ? pageTasks : pageTasks - 1),
       take: limitTasks,
+      loadRelationIds: true,
     });
+
+    return {
+      countTasks,
+      tasks,
+    };
   }
 
   findOne(id: number) {

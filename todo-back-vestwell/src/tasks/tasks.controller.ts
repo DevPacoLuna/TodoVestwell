@@ -25,8 +25,8 @@ export class TasksController {
   }
 
   @Get()
-  findAllFilter(@Query() query) {
-    return this.tasksService.findAllFilter(query);
+  async findAllFilter(@Query() query) {
+    return await this.tasksService.findAllFilter(query);
   }
 
   @Get(':id')

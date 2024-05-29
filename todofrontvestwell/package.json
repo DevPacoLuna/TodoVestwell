@@ -18,6 +18,8 @@
     "@mui/icons-material": "^5.15.18",
     "@mui/material": "^5.15.18",
     "@mui/material-nextjs": "^5.15.11",
+    "@mui/x-date-pickers": "^7.5.1",
+    "@tanstack/react-query": "^5.40.0",
     "axios": "^1.7.2",
     "dayjs": "^1.11.11",
     "formik": "^2.4.6",

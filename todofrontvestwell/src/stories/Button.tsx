@@ -17,7 +17,7 @@ interface ButtonProps {
   /**
    * Button contents
    */
-  label: string;
+  children: string;
   /**
    * Optional click handler
    */
@@ -31,16 +31,16 @@ export const Button = ({
   primary = false,
   size = "medium",
   backgroundColor,
-  label,
+  children,
   ...props
 }: ButtonProps) => {
   return (
     <button
       type="button"
-      className={["storybook-snatch", `storybook-snatch--${size}`].join(" ")}
+      className={["storybook-button", `storybook-button--${size}`].join(" ")}
       {...props}
     >
-      {label}
+      {children}
       <style jsx>{`
         button {
           background-color: ${backgroundColor};
