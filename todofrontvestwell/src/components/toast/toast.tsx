@@ -2,7 +2,7 @@ import { ErrorsContext } from "@/providers/handleErrorsProvider";
 import { Alert, Snackbar } from "@mui/material";
 import { Dispatch, SetStateAction, useContext, useEffect } from "react";
 
-interface Toast {
+export interface Toast {
   type: "error" | "info" | "success" | "warning";
   children: string;
   index: number;

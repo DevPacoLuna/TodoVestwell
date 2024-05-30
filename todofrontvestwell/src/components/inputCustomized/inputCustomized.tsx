@@ -23,7 +23,7 @@ interface Password extends GeneralInput {
   icon?: { visible: ReactNode; hide: ReactNode };
 }
 
-type PropsType = Normal | Password;
+export type PropsType = Normal | Password;
 
 export const InputCustomized = (props: PropsType) => {
   const [showPassword, setShowPassword] = useState(false);
@@ -35,6 +35,7 @@ export const InputCustomized = (props: PropsType) => {
     return (
       <TextField
         id={name}
+        inputProps={{ "data-testid": "normal-input" }}
         placeholder={placeholder}
         onChange={handleChange}
         className={className}
@@ -56,6 +57,7 @@ export const InputCustomized = (props: PropsType) => {
       placeholder={placeholder}
       type={showPassword ? "text" : "password"}
       onChange={handleChange}
+      inputProps={{ "data-testid": "password-input" }}
       className={className}
       endAdornment={
         <InputAdornment position="end">
