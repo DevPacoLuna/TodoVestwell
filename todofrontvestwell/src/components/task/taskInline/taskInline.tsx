@@ -1,8 +1,8 @@
 import { TaskDAO, TaskStatus } from "@/models/task";
 import { Checkbox } from "@mui/material";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
-import { Snatch } from "@/stories/Snatch";
-import { ChipStatus } from "@/stories/ChipStatus";
+import { Snatch } from "@/components/snatch/Snatch";
+import { ChipStatus } from "@/components/chipStatus/ChipStatus";
 
 const TaskInline = ({
   task,

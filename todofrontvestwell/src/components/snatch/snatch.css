@@ -22,12 +22,15 @@
 
 .storybook-snatch--small {
   font-size: 20px;
+  height: 42px;
 }
 
 .storybook-snatch--medium {
   font-size: 40px;
+  height: 72px;
 }
 
 .storybook-snatch--large {
   font-size: 56px;
+  height: 72px;
 }

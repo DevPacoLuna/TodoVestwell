@@ -1,4 +1,4 @@
-import { Button } from "@/stories/Button";
+import { Button } from "@/components/button/Button";
 import { Modal } from "@mui/material";
 
 interface TaskDeleteModalProps {

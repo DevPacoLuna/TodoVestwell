@@ -1,5 +1,5 @@
 "use client";
-import { Snatch } from "@/stories/Snatch";
+import { Snatch } from "@/components/snatch/Snatch";
 import AddIcon from "@mui/icons-material/Add";
 import {
   FormControl,

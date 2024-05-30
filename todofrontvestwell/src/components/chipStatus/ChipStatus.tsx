@@ -3,7 +3,7 @@ import { useState } from "react";
 import "./chipStatus.css";
 import { TaskStatus } from "@/models/task";
 
-interface ChipStatusProps {
+export interface ChipStatusProps {
   /**
    * What status is going to have
    */
@@ -47,6 +47,7 @@ export const ChipStatus = ({
 
   return (
     <div
+      data-testid="chipstatus-container"
       style={statusOption[status]}
       className={[
         "storybook-chipstatus",
@@ -56,7 +57,7 @@ export const ChipStatus = ({
       onClick={() => setClick((prev) => !prev)}
       {...props}
     >
-      <p>{status}</p>
+      <p data-testid="chipstatus-label">{status}</p>
     </div>
   );
 };

@@ -2,7 +2,7 @@
 import { useState } from "react";
 import "./snatch.css";
 
-interface SnatchProps {
+export interface SnatchProps {
   /**
    * What background color to use
    */
@@ -35,6 +35,7 @@ export const Snatch = ({
   const [click, setClick] = useState<boolean>(false);
   return (
     <div
+      data-testid="snatch-container"
       style={{
         backgroundColor: click ? color : backgroundColor,
         color: click ? backgroundColor : color,
@@ -43,7 +44,7 @@ export const Snatch = ({
       onClick={() => setClick((prev) => !prev)}
       {...props}
     >
-      <p>{label}</p>
+      <p data-testid="snatch-label">{label}</p>
     </div>
   );
 };

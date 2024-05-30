@@ -1,5 +1,5 @@
 "use client";
-import { Button } from "@/stories/Button";
+import { Button } from "@/components/button/Button";
 import CloseIcon from "@mui/icons-material/Close";
 import {
   FormControl,
