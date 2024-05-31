@@ -1,3 +1,4 @@
+import { User } from 'src/users/entities/user.entity';
 import {
   Column,
   Entity,
@@ -34,4 +35,7 @@ export class Task {
 
   @Column({ type: 'enum', enum: TaskStatus, default: TaskStatus.TODO })
   status: TaskStatus;
+
+  @ManyToOne(() => User, (user) => user.tasks)
+  user: User;
 }

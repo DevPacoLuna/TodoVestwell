@@ -1,12 +1,22 @@
 "use client";
 import Image from "next/image";
 import images from "../../../public/images";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { SignUp } from "@/components/auth/signup/signUp";
 import { SignIn } from "@/components/auth/signin/signIn";
+import { useRouter } from "next/navigation";
+import { AuthContext } from "@/providers/handleAuthProvider";
 
 const Auth = () => {
+  const { isLogged } = useContext(AuthContext);
   const [hasAccount, setHasAccount] = useState(true);
+  const router = useRouter();
+
+  useEffect(() => {
+    if (isLogged) {
+      router.push("/");
+    }
+  }, [isLogged, router]);
 
   return (
     <section className="w-full h-[950px] flex justify-center">

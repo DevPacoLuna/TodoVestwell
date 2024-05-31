@@ -9,9 +9,11 @@ import { AxiosError } from "axios";
 import { login } from "@/services/auth";
 import { useRouter } from "next/navigation";
 import { InputCustomized } from "@/components/inputCustomized/inputCustomized";
+import { useQueryClient } from "@tanstack/react-query";
 
 export const SignUp = () => {
   const { setErrors } = useContext(ErrorsContext);
+  const queryClient = useQueryClient();
   const router = useRouter();
 
   const fetchSignUp = async (values: signUpForm) => {
@@ -31,6 +33,7 @@ export const SignUp = () => {
             type: "success",
           },
         ]);
+        await queryClient.invalidateQueries({ queryKey: ["user"] });
         await new Promise((resolve) => setTimeout(resolve, 1000));
         router.push("/");
       }

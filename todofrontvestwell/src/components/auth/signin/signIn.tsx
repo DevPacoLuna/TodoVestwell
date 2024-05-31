@@ -8,9 +8,11 @@ import { ErrorsContext } from "@/providers/handleErrorsProvider";
 import { AxiosError } from "axios";
 import { useRouter } from "next/navigation";
 import { InputCustomized } from "@/components/inputCustomized/inputCustomized";
+import { useQueryClient } from "@tanstack/react-query";
 
 export const SignIn = () => {
   const { setErrors } = useContext(ErrorsContext);
+  const queryClient = useQueryClient();
   const router = useRouter();
 
   const fetchSignIn = async (values: signInForm) => {
@@ -25,6 +27,7 @@ export const SignIn = () => {
             type: "success",
           },
         ]);
+        await queryClient.invalidateQueries({ queryKey: ["user"] });
         await new Promise((resolve) => setTimeout(resolve, 1000));
         router.push("/");
       }

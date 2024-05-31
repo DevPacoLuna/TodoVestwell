@@ -8,6 +8,7 @@ import {
   Delete,
   UseGuards,
   Query,
+  Request,
 } from '@nestjs/common';
 import { TasksService } from './tasks.service';
 import { CreateTaskDto } from './dto/create-task.dto';
@@ -20,13 +21,13 @@ export class TasksController {
   constructor(private readonly tasksService: TasksService) {}
 
   @Post()
-  create(@Body() createTaskDto: CreateTaskDto) {
-    return this.tasksService.create(createTaskDto);
+  create(@Body() createTaskDto: CreateTaskDto, @Request() req) {
+    return this.tasksService.create(req.user.sub, createTaskDto);
   }
 
   @Get()
-  async findAllFilter(@Query() query) {
-    return await this.tasksService.findAllFilter(query);
+  async findAllFilter(@Query() query, @Request() req) {
+    return await this.tasksService.findAllFilter(req.user.sub, query);
   }
 
   @Get(':id')
