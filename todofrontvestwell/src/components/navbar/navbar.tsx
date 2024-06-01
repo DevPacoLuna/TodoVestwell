@@ -23,9 +23,9 @@ export const Navbar = () => {
   };
 
   return (
-    <div className="w-full flex items-center justify-end px-[10px] py-[20px]">
+    <div className="w-full flex items-center justify-end px-[10px] pt-[20px]">
       <button onClick={handleClick}>
-        <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
+        <Avatar alt="Remy Sharp" />
       </button>
       <Menu
         id="basic-menu"

@@ -21,8 +21,13 @@ const TaskInline = ({
         onClick={() => handleSelectedTask(task)}
       >
         <div className="flex gap-[10px] items-center">
-          <Checkbox aria-label="done" />
-          <p>{task.title}</p>
+          <Checkbox
+            aria-label="done"
+            checked={task.status === TaskStatus.DONE}
+          />
+          <p className={task.status === TaskStatus.DONE ? "line-through" : ""}>
+            {task.title}
+          </p>
         </div>
         <KeyboardArrowRightIcon />
       </div>

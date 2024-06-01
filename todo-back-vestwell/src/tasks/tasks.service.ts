@@ -1,10 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Task, TaskStatus } from './entities/task.entity';
 import { IsNull, Repository } from 'typeorm';
-import { UsersService } from 'src/users/users.service';
 
 export interface FiltersDTO {
   limit: string;
@@ -16,7 +15,6 @@ export interface FiltersDTO {
 export class TasksService {
   constructor(
     @InjectRepository(Task) private tasksRepository: Repository<Task>,
-    private usersService: UsersService,
   ) {}
 
   async create(userId: string, createTaskDto: CreateTaskDto) {
@@ -34,7 +32,9 @@ export class TasksService {
       where: { status, parentTask: IsNull(), user: { id: +userId } },
       skip: limitTasks * (pageTasks <= 1 ? pageTasks : pageTasks - 1),
       take: limitTasks,
-      loadRelationIds: true,
+      relations: {
+        childTasks: true,
+      },
     });
 
     return {
@@ -44,10 +44,19 @@ export class TasksService {
   }
 
   async findOne(id: number) {
-    return await this.tasksRepository.findBy({ id });
+    return await this.tasksRepository.findOne({
+      where: { id },
+      relations: ['user', 'childTasks', 'parentTask'],
+    });
   }
 
-  async update(id: number, updateTaskDto: UpdateTaskDto) {
+  async update(userId: number, id: number, updateTaskDto: UpdateTaskDto) {
+    const task = await this.findOne(id);
+
+    if (task.user.id !== userId) {
+      throw new UnauthorizedException("Don't have rights to edit this task");
+    }
+
     return await this.tasksRepository.update(id, updateTaskDto);
   }
 

@@ -31,7 +31,7 @@ export default function Home() {
   const [count, setCount] = useState<number>(0);
   const [status, setStatus] = useState<TaskStatus | "All">("All");
   const [limit, setLimit] = useState(5);
-  const [taskSelected, setTaskSelected] = useState<CreateTaskDTO>();
+  const [taskSelected, setTaskSelected] = useState<{ id?: number }>();
   const router = useRouter();
 
   const { data: allTasks } = useQuery({
@@ -86,7 +86,7 @@ export default function Home() {
             <div className="w-full mb-[20px]">
               <button
                 className="w-full h-[56px] rounded-[5px] border-[1px] border-[#EBEBEB] flex items-center pl-[20px] text-[#7c7c7cff] gap-[10px]"
-                onClick={() => setTaskSelected(mockTask)}
+                onClick={() => setTaskSelected({})}
               >
                 <AddIcon />
                 Add new task

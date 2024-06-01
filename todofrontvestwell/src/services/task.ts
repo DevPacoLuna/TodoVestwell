@@ -19,6 +19,14 @@ export const getAllTasks = async ({ page, limit, status }: FiltersDTO) => {
   return result.data;
 };
 
+export const getTaskById = async ({ id }: { id: number }) => {
+  const result = await axiosService("client").get<TaskDAO>(`/tasks/${id}`, {
+    headers: { Authorization: `Bearer ${getToken()}` },
+  });
+
+  return result.data;
+};
+
 export const createTask = async (task: CreateTaskDTO) => {
   const result = await axiosService("client").post<TaskDAO>(`/tasks`, task, {
     headers: { Authorization: `Bearer ${getToken()}` },
