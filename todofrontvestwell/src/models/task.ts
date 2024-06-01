@@ -19,7 +19,7 @@ export interface TaskDAO {
   title: string;
   description: string;
   dueDate: string;
-  parentTask: number;
+  parentTask: TaskDAO;
   childTasks: TaskDAO[];
   status: TaskStatus;
 }
@@ -30,6 +30,7 @@ export interface CreateTaskDTO {
   description: string;
   dueDate: string;
   parentTask?: number;
+  childTasks?: TaskDAO[];
   status?: TaskStatus;
 }
 

@@ -1,7 +1,7 @@
 import React from "react";
 import "./button.css";
 
-interface ButtonProps {
+export interface ButtonProps {
   /**
    * Is this the principal call to action on the page?
    */
@@ -37,6 +37,7 @@ export const Button = ({
   return (
     <button
       type="button"
+      data-testid="button-container"
       className={["storybook-button", `storybook-button--${size}`].join(" ")}
       {...props}
     >

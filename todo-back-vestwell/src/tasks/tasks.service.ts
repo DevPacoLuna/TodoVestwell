@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -17,19 +17,24 @@ export class TasksService {
     @InjectRepository(Task) private tasksRepository: Repository<Task>,
   ) {}
 
-  async create(createTaskDto: CreateTaskDto) {
-    const task = this.tasksRepository.create(createTaskDto);
+  async create(userId: string, createTaskDto: CreateTaskDto) {
+    const task = await this.tasksRepository.create({
+      ...createTaskDto,
+      user: { id: +userId },
+    });
     return await this.tasksRepository.save(task);
   }
 
-  async findAllFilter({ limit, page, status }: FiltersDTO) {
+  async findAllFilter(userId: string, { limit, page, status }: FiltersDTO) {
     const pageTasks = parseInt(page);
     const limitTasks = parseInt(limit);
     const [tasks, countTasks] = await this.tasksRepository.findAndCount({
-      where: { status, parentTask: IsNull() },
+      where: { status, parentTask: IsNull(), user: { id: +userId } },
       skip: limitTasks * (pageTasks <= 1 ? pageTasks : pageTasks - 1),
       take: limitTasks,
-      loadRelationIds: true,
+      relations: {
+        childTasks: true,
+      },
     });
 
     return {
@@ -38,11 +43,20 @@ export class TasksService {
     };
   }
 
-  findOne(id: number) {
-    return this.tasksRepository.findBy({ id });
+  async findOne(id: number) {
+    return await this.tasksRepository.findOne({
+      where: { id },
+      relations: ['user', 'childTasks', 'parentTask'],
+    });
   }
 
-  async update(id: number, updateTaskDto: UpdateTaskDto) {
+  async update(userId: number, id: number, updateTaskDto: UpdateTaskDto) {
+    const task = await this.findOne(id);
+
+    if (task.user.id !== userId) {
+      throw new UnauthorizedException("Don't have rights to edit this task");
+    }
+
     return await this.tasksRepository.update(id, updateTaskDto);
   }
 

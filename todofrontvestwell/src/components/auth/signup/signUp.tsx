@@ -1,14 +1,6 @@
 "use client";
-import {
-  CircularProgress,
-  IconButton,
-  InputAdornment,
-  OutlinedInput,
-  TextField,
-} from "@mui/material";
-import Visibility from "@mui/icons-material/Visibility";
-import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import { useContext, useState } from "react";
+import { CircularProgress } from "@mui/material";
+import { useContext } from "react";
 import { useFormik } from "formik";
 import { signUpForm, signUpSchema } from "./form";
 import { ErrorsContext } from "@/providers/handleErrorsProvider";
@@ -16,13 +8,13 @@ import { createUser } from "@/services/user";
 import { AxiosError } from "axios";
 import { login } from "@/services/auth";
 import { useRouter } from "next/navigation";
+import { InputCustomized } from "@/components/inputCustomized/inputCustomized";
+import { useQueryClient } from "@tanstack/react-query";
 
 export const SignUp = () => {
   const { setErrors } = useContext(ErrorsContext);
+  const queryClient = useQueryClient();
   const router = useRouter();
-  const [showPassword, setShowPassword] = useState(false);
-
-  const handleClickShowPassword = () => setShowPassword((show) => !show);
 
   const fetchSignUp = async (values: signUpForm) => {
     const { confirmPassword, ...user } = values;
@@ -41,6 +33,7 @@ export const SignUp = () => {
             type: "success",
           },
         ]);
+        await queryClient.invalidateQueries({ queryKey: ["user"] });
         await new Promise((resolve) => setTimeout(resolve, 1000));
         router.push("/");
       }
@@ -72,57 +65,38 @@ export const SignUp = () => {
     <div className="w-full flex flex-col gap-[20px]">
       <h1 className="text-[58px] font-semibold">Sign up</h1>
       <div className="flex w-full">
-        <TextField
-          id="firstName"
+        <InputCustomized
+          name="firstName"
           placeholder="First name"
-          onChange={formikSignUp.handleChange}
+          type="normal"
           className="w-1/2"
+          handleChange={formikSignUp.handleChange}
         />
-        <TextField
-          id="lastName"
+        <InputCustomized
+          name="lastName"
           placeholder="Last name"
-          onChange={formikSignUp.handleChange}
+          type="normal"
           className="w-1/2"
+          handleChange={formikSignUp.handleChange}
         />
       </div>
-      <TextField
-        id="email"
+      <InputCustomized
+        name="email"
         placeholder="Email"
-        onChange={formikSignUp.handleChange}
+        type="normal"
+        handleChange={formikSignUp.handleChange}
       />
-      <OutlinedInput
-        id="password"
+      <InputCustomized
+        name="password"
         placeholder="Password"
-        onChange={formikSignUp.handleChange}
-        type={showPassword ? "text" : "password"}
-        endAdornment={
-          <InputAdornment position="end">
-            <IconButton
-              aria-label="toggle password visibility"
-              onClick={handleClickShowPassword}
-              edge="end"
-            >
-              {showPassword ? <VisibilityOff /> : <Visibility />}
-            </IconButton>
-          </InputAdornment>
-        }
+        type="password"
+        handleChange={formikSignUp.handleChange}
       />
-      <OutlinedInput
-        id="confirmPassword"
+      <InputCustomized
+        name="confirmPassword"
         placeholder="Confirm Password"
-        onChange={formikSignUp.handleChange}
-        type={showPassword ? "text" : "password"}
-        endAdornment={
-          <InputAdornment position="end">
-            <IconButton
-              aria-label="toggle password visibility"
-              onClick={handleClickShowPassword}
-              edge="end"
-            >
-              {showPassword ? <VisibilityOff /> : <Visibility />}
-            </IconButton>
-          </InputAdornment>
-        }
+        type="password"
+        handleChange={formikSignUp.handleChange}
       />
       <button
         className="bg-[#FFD43B] h-[56px] rounded-[5px]"

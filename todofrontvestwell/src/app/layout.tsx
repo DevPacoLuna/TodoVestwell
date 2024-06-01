@@ -7,6 +7,7 @@ import "./globals.css";
 import { HandleErrorsProvider } from "@/providers/handleErrorsProvider";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import HandleQueryProvider from "@/providers/handleQueryProvider";
+import { HandleAuthProvider } from "@/providers/handleAuthProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -24,11 +25,13 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <HandleQueryProvider>
-          <AppRouterCacheProvider>
-            <ThemeProvider theme={theme}>
-              <HandleErrorsProvider>{children}</HandleErrorsProvider>
-            </ThemeProvider>
-          </AppRouterCacheProvider>
+          <HandleAuthProvider>
+            <AppRouterCacheProvider>
+              <ThemeProvider theme={theme}>
+                <HandleErrorsProvider>{children}</HandleErrorsProvider>
+              </ThemeProvider>
+            </AppRouterCacheProvider>
+          </HandleAuthProvider>
         </HandleQueryProvider>
       </body>
     </html>

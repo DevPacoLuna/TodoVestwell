@@ -23,12 +23,9 @@ export class UsersService {
     return newUser;
   }
 
-  findAll() {
-    return this.usersRepository.find();
-  }
-
-  findOne(id: number) {
-    return this.usersRepository.findOneBy({ id });
+  async findOne(id: number) {
+    const { password, ...user } = await this.usersRepository.findOneBy({ id });
+    return user;
   }
 
   findByEmail(email: string) {

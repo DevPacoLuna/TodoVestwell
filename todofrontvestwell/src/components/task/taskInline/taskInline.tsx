@@ -1,8 +1,8 @@
 import { TaskDAO, TaskStatus } from "@/models/task";
 import { Checkbox } from "@mui/material";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
-import { Snatch } from "@/stories/Snatch";
-import { ChipStatus } from "@/stories/ChipStatus";
+import { Snatch } from "@/components/snatch/Snatch";
+import { ChipStatus } from "@/components/chipStatus/ChipStatus";
 
 const TaskInline = ({
   task,
@@ -21,8 +21,13 @@ const TaskInline = ({
         onClick={() => handleSelectedTask(task)}
       >
         <div className="flex gap-[10px] items-center">
-          <Checkbox aria-label="done" />
-          <p>{task.title}</p>
+          <Checkbox
+            aria-label="done"
+            checked={task.status === TaskStatus.DONE}
+          />
+          <p className={task.status === TaskStatus.DONE ? "line-through" : ""}>
+            {task.title}
+          </p>
         </div>
         <KeyboardArrowRightIcon />
       </div>
